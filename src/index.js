@@ -1,6 +1,10 @@
+#!/usr/bin/env node
 import inquirer from "inquirer";
 import gradient from "gradient-string";
 import figlet from "figlet";
+import chalk from "chalk";
+import { askQuery } from "./ask.js";
+import { createSpinner } from "nanospinner";
 
 // Sleep function to introduce delays
 async function sleep(ms = 1000) {
@@ -8,7 +12,7 @@ async function sleep(ms = 1000) {
 }
 
 // Using gradient to display welcome message
-async function usingGradient() {
+function showBanner() {
   console.clear();
   const msg = `Welcome to  \tCLI Web Cloner`;
 
@@ -16,7 +20,6 @@ async function usingGradient() {
     console.log(gradient.rainbow.multiline(data));
   });
 }
-await usingGradient();
 
 // Function to ask user questions
 async function askQuestions() {
@@ -25,7 +28,7 @@ async function askQuestions() {
     {
       name: "url",
       type: "input",
-      message: "Enter the URL of the website to clone:",
+      message: "\nEnter the URL of the website to clone:",
       validate: function (value) {
         var valid = value.startsWith("http://") || value.startsWith("https://");
         return (
@@ -39,8 +42,28 @@ async function askQuestions() {
 
 // Main function to run the program
 async function main() {
+  showBanner();
   const answers = await askQuestions();
-  console.log(answers);
+
+  const spinner = createSpinner(
+    `\n🌐 Analyzing: "${answers.url}"...\n`
+  ).start();
+
+  while (true) {
+    try {
+      const result = await askQuery(answers.url);
+      console.log(chalk.blueBright("\n✅ Successfully cloned! "));
+      if (result) console.log(result);
+    } catch (error) {
+      console.error(chalk.redBright("❌ Error occurred: "), error);
+    }
+    console.log(
+      chalk.whiteBright("─────────────────────────────────────────────")
+    );
+    console.clear();
+    break;
+  }
+  console.log(gradient.fruit("\n👋 Bye! Thanks for using Web Clone CLI."));
 }
 
 main();
