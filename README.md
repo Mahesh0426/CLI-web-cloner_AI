@@ -28,7 +28,7 @@ A simple command-line tool to create a basic static clone of a website's landing
 Clone the repo and install dependencies:
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/Mahesh0426/CLI-web-cloner_AI.git
 cd CLI_web-cloner
 npm install
 ```
@@ -69,15 +69,11 @@ Example:
 
 ```text
 $ node src/index.js
-CLI WEB CLONER
-✨ Welcome to the CLI Web Cloner ✨
-
-Enter the URL of the website to clone: https://example.com
-🌐 Analyzing: "https://example.com"...
-🤖 Processing with AI...
-✅ Analysis complete!
-...analysis output...
 ```
+
+<p align="center">
+  <img src="assets/banner.png" alt="CLI Web Cloner" width="750" height="150" />
+</p>
 
 ---
 
