@@ -2,7 +2,7 @@ import dotenv from "dotenv";
 import path from "path";
 import { fileURLToPath } from "url";
 import { OpenAI } from "openai";
-import { executeCommand } from "./tool.js";
+import { executeCommand, inquiry, scraper } from "./tool.js";
 
 // Get the current directory of this file
 const __filename = fileURLToPath(import.meta.url);
@@ -18,6 +18,8 @@ const client = new OpenAI({
 //create a TOOL_MAP object to map tool names to their corresponding functions
 const TOOL_MAP = {
   executeCommand: executeCommand,
+  scraper: scraper,
+  inquiry: inquiry,
 };
 
 export async function userQuery(answers) {
