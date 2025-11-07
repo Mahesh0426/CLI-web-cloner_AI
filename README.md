@@ -1,16 +1,110 @@
-# React + Vite
+# CLI Web Cloner
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A simple command-line tool to create a basic static clone of a website's landing/ public pages (HTML, CSS, JS). Inspired by Codex but intentionally lightweight — this project demonstrates a CLI→server pattern where the CLI collects a URL and a backend/LLM helps analyze and prepare downloadable/static assets.
 
-Currently, two official plugins are available:
+> NOTE: This repository contains a CLI frontend (Node) and expects a server-side component for reliable production cloning (CORS, dynamic JS, authentication, rate limits). The included LLM integration is for analysis/decision-making and may require an API key.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Minimal CLI to accept a URL and run an analysis flow
+- Spinner and readable console banner for UX
+- Calls an LLM/helper (via `userQuery`) to analyze cloning feasibility
+- Designed to be extended with a server that fetches, rewrites, and packages assets (zip)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Prerequisites
+
+- Node.js 16+ (or as required by your dependencies)
+- npm or yarn
+- (Optional) LLM/API key environment variable if you wire `userQuery` to an external provider
+
+---
+
+## Install & Run
+
+Clone the repo and install dependencies:
+
+```bash
+git clone <repo-url>
+cd CLI_web-cloner
+npm install
+```
+
+Run directly:
+
+```bash
+node src/index.js
+```
+
+Install globally for convenience (optional):
+
+```bash
+npm link
+# then run
+cli-web-cloner
+# or, if package.json defines a bin name, use that command
+```
+
+---
+
+## Usage
+
+1. Start the CLI:
+
+   - node src/index.js
+   - or the linked global command
+
+2. Enter the public URL when prompted (must start with `http://` or `https://`).
+
+3. The app will:
+   - Show a banner
+   - Run a short initial analysis spinner
+   - Call the LLM/helper to analyze the site and recommend/prepare cloning steps
+   - Print results and next steps
+
+Example:
+
+```text
+$ node src/index.js
+CLI WEB CLONER
+✨ Welcome to the CLI Web Cloner ✨
+
+Enter the URL of the website to clone: https://example.com
+🌐 Analyzing: "https://example.com"...
+🤖 Processing with AI...
+✅ Analysis complete!
+...analysis output...
+```
+
+---
+
+## Implementation notes
+
+- The CLI is located at `src/index.js` (shebang present for direct execution).
+- LLM/analysis is invoked via `userQuery` (see `src/ask.js`).
+- Full cloning (fetching remote HTML/assets, rewriting links, packaging) belongs in a server component. Browsers/CLIs cannot bypass cross-origin restrictions without server-side fetches.
+
+---
+
+## Security & Legal
+
+- Only clone public pages you are authorized to copy.
+- Do not attempt to clone content behind authentication or that violates terms of service or copyright.
+- The tool is intended for learning, testing, or archiving your own/public domain pages.
+
+---
+
+## Contributing
+
+- Open issues for bugs or feature requests.
+- PRs should include tests or manual test instructions.
+- Suggestion: add a server module (Node/Express) that accepts a URL, fetches assets, rewrites links, and returns a zip.
+
+---
+
+## License
+
+MIT — see LICENSE file for details.
