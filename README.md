@@ -1,136 +1,106 @@
-# readme-agent 🚀
+# CLI Web Cloner
 
-[![license](https://img.shields.io/badge/license-Private-blue.svg)](https://img.shields.io/badge/license-Private-blue.svg) [![node version](https://img.shields.io/badge/node-%3E%3D14.0.0-brightgreen.svg)](https://nodejs.org/) [![npm version](https://img.shields.io/badge/npm-%5E5.0.0-blue.svg)](https://www.npmjs.com/)
+A simple command-line tool to create a basic static clone of a website's landing/ public pages (HTML, CSS, JS). Inspired by Codex but intentionally lightweight — this project demonstrates a CLI→server pattern where the CLI collects a URL and a backend/LLM helps analyze and prepare downloadable/static assets.
 
-## 📋 Short Description
-
-`readme-agent` is a private Node.js CLI tool designed to automate the creation of professional README.md files for projects by leveraging OpenAI's API. It offers an intelligent and streamlined workflow to generate structured, detailed, and well-formatted README documentation with ease.
-
-## 📑 Table of Contents
-
-- [Features](#-features)
-- [Prerequisites](#-prerequisites)
-- [Getting Started](#-getting-started)
-- [Environment Variables](#-environment-variables)
-- [Usage](#-usage)
-- [Project Folder Structure](#-project-folder-structure)
-- [Dependencies](#-dependencies)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Author](#-author)
-
-## ✨ Features
-
-- CLI agent to generate README.md files automatically
-- Integration with OpenAI API for AI-powered content generation
-- Support for environment variable management via `.env`
-- Uses spinners and colorful CLI feedback with `nanospinner` and `chalk`
-- Simple command execution utility inside the agent
-
-## 🛠️ Prerequisites
-
-- Node.js version >= 14.0.0
-- Yarn or npm package manager
-- An OpenAI API key
-
-## 🚀 Getting Started
-
-1. **Clone the repository**
-
-   ```bash
-   git clone <repository-url>
-   cd readme_file_create_agent
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   yarn install
-   # or
-   npm install
-   ```
-
-3. **Setup environment variables**
-
-   Create a `.env` file in the root directory (if not present) with the following:
-
-   ```env
-   OPENAI_API_KEY=your_api_key_here
-   ```
-
-4. **Run the CLI agent**
-
-   ```bash
-   node readmefileAgent.js
-   ```
-
-   > Note: The `package.json` mentions a `dev` script running `node src/index.js`, but the `src` folder is not present. Use the above command to run the main script directly.
-
-## 🔑 Environment Variables
-
-```env
-# Your OpenAI API key
-OPENAI_API_KEY=your_api_key_here
-```
-
-> Never share your real API key publicly. Use environment variables to keep them secure.
-
-## 💡 Usage
-
-Run the main CLI script to generate README files:
-
-```bash
-node readmefileAgent.js
-```
-
-Run globaly with any project
-
-```bash
-yarn link  && npm link
-```
-
-then run `readme-agent` in any project terminal
-
-```bash
-readme-agent
-```
-
-This will start the interactive CLI agent that helps generate a README.md file in the current directory based on the project context.
-
-## 📂 Project Folder Structure
-
-```
-readme_file_create_agent/
-├── .env                 # Environment variables file
-├── .git                 # Git repository data
-├── .gitignore           # Git ignore rules
-├── node_modules/        # Node.js dependencies
-├── package.json         # Project config and dependencies
-├── readmefileAgent.js   # Main CLI executable file
-├── yarn.lock            # Yarn lockfile
-```
-
-## 📦 Dependencies
-
-- [`chalk`](https://www.npmjs.com/package/chalk): Terminal string styling
-- [`dotenv`](https://www.npmjs.com/package/dotenv): Loads environment variables from `.env`
-- [`nanospinner`](https://www.npmjs.com/package/nanospinner): CLI spinner animations
-- [`openai`](https://www.npmjs.com/package/openai): Official OpenAI API client
-
-## 🤝 Contributing
-
-Contributions, issues, and feature requests are welcome! Feel free to check the repository and submit pull requests or open issues for bugs or improvements.
-
-## 📄 License
-
-This project is marked as private in `package.json`, so it's not publicly licensed.
-
-## 🙋 Author
-
-**Mahesh Kunwar**
-
-- GitHub: [https://github.com/maheshkunwar](https://github.com/maheshkunwar)
+> NOTE: This repository contains a CLI frontend (Node) and expects a server-side component for reliable production cloning (CORS, dynamic JS, authentication, rate limits). The included LLM integration is for analysis/decision-making and may require an API key.
 
 ---
 
-_Thank you for using `readme-agent`! 🎉_
+## Features
+
+- Minimal CLI to accept a URL and run an analysis flow
+- Spinner and readable console banner for UX
+- Calls an LLM/helper (via `userQuery`) to analyze cloning feasibility
+- Designed to be extended with a server that fetches, rewrites, and packages assets (zip)
+
+---
+
+## Prerequisites
+
+- Node.js 16+ (or as required by your dependencies)
+- npm or yarn
+- (Optional) LLM/API key environment variable if you wire `userQuery` to an external provider
+
+---
+
+## Install & Run
+
+Clone the repo and install dependencies:
+
+```bash
+git clone https://github.com/Mahesh0426/CLI-web-cloner_AI.git
+cd CLI_web-cloner
+npm install
+```
+
+Run directly:
+
+```bash
+node src/index.js
+```
+
+Install globally for convenience (optional):
+
+```bash
+npm link
+# then run
+cli-web-cloner
+# or, if package.json defines a bin name, use that command
+```
+
+---
+
+## Usage
+
+1. Start the CLI:
+
+   - node src/index.js
+   - or the linked global command
+
+2. Enter the public URL when prompted (must start with `http://` or `https://`).
+
+3. The app will:
+   - Show a banner
+   - Run a short initial analysis spinner
+   - Call the LLM/helper to analyze the site and recommend/prepare cloning steps
+   - Print results and next steps
+
+Example:
+
+```text
+$ node src/index.js
+```
+
+<p align="center">
+  <img src="assets/banner.png" alt="CLI Web Cloner" width="750" height="150" />
+</p>
+
+---
+
+## Implementation notes
+
+- The CLI is located at `src/index.js` (shebang present for direct execution).
+- LLM/analysis is invoked via `userQuery` (see `src/ask.js`).
+- Full cloning (fetching remote HTML/assets, rewriting links, packaging) belongs in a server component. Browsers/CLIs cannot bypass cross-origin restrictions without server-side fetches.
+
+---
+
+## Security & Legal
+
+- Only clone public pages you are authorized to copy.
+- Do not attempt to clone content behind authentication or that violates terms of service or copyright.
+- The tool is intended for learning, testing, or archiving your own/public domain pages.
+
+---
+
+## Contributing
+
+- Open issues for bugs or feature requests.
+- PRs should include tests or manual test instructions.
+- Suggestion: add a server module (Node/Express) that accepts a URL, fetches assets, rewrites links, and returns a zip.
+
+---
+
+## License
+
+MIT — see LICENSE file for details.

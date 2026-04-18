@@ -4,7 +4,7 @@ import figlet from "figlet";
 import chalk from "chalk";
 import { userQuery } from "./ask.js";
 import { createSpinner } from "nanospinner";
-import { input, confirm } from "@inquirer/prompts";
+import { select, input, confirm } from "@inquirer/prompts";
 
 // Sleep function to introduce delays
 async function sleep(ms = 1000) {
