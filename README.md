@@ -2,7 +2,6 @@
 
 A simple command-line tool to create a basic static clone of a website's landing/ public pages (HTML, CSS, JS). Inspired by Codex but intentionally lightweight — this project demonstrates a CLI→server pattern where the CLI collects a URL and a backend/LLM helps analyze and prepare downloadable/static assets.
 
-> NOTE: This repository contains a CLI frontend (Node) and expects a server-side component for reliable production cloning (CORS, dynamic JS, authentication, rate limits). The included LLM integration is for analysis/decision-making and may require an API key.
 
 ---
 
