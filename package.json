@@ -10,7 +10,13 @@
     "dev": "node src/index.js"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@inquirer/prompts": "^7.9.0",
+    "axios": "^1.13.2",
+>>>>>>> 9373c7a (readme file edited)
     "chalk": "^5.6.2",
+    "cheerio": "^1.1.2",
     "dotenv": "^17.2.3",
     "nanospinner": "^1.2.2",
     "openai": "^6.8.0"
